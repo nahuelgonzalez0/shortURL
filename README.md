@@ -24,10 +24,3 @@ El proyecto utiliza las siguientes dependencias:
    ```bash
    git clone https://github.com/tuusuario/acortador-urls.git
    cd acortador-urls
-/acortador-urls
-  /node_modules       # Dependencias de Node.js
-  /views              # Archivos de vista EJS
-  /public             # Archivos estáticos (CSS, JS, imágenes)
-  .env                # Variables de entorno
-  app.js              # Archivo principal del servidor
-  package.json        # Información del proyecto y dependencias
