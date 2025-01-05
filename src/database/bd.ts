@@ -1,7 +1,7 @@
 //la bd en si
 import connect from './database'
 
-export async function createUrls (idUsuario: string,shortUrl: string, longUrl: string, titulo: string | undefined, descripcion: string | undefined, imagen: string | undefined) {
+export async function createUrls (idUsuario: string,shortUrl: string, longUrl: string, titulo?: string, descripcion?: string, imagen?: string) {
 const db = await connect()
     if (db !== null) {
         const urlTable = `
@@ -15,12 +15,18 @@ const db = await connect()
                 imagen TEXT
             )
         `
+        const checkShortUrl = `SELECT * FROM urls WHERE shortUrl = ?`;
         const insertUrl = `
         INSERT INTO urls (IdUsuario, shortUrl, longUrl, titulo, descripcion, imagen)
         VALUES (?, ?, ?, ?, ?, ?)
         `
         try {
             await db.exec(urlTable)
+            const existingUrl = await db.get(checkShortUrl, [shortUrl]);
+            if (existingUrl) {
+                console.log("La URL ya existe:", existingUrl.shortUrl)
+                throw new Error("El shortUrl ya está en uso, elige otro.");
+            }
             const result = await db.run(insertUrl, [idUsuario, shortUrl, longUrl, titulo, descripcion, imagen])
             console.log("URL creada con exito")
             return {

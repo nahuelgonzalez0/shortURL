@@ -1,154 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .url-form {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-        .url-form input {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-        .url-form button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-        .url-form button:hover {
-            background-color: #45a049;
-        }
-        .urls-panel {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .urls-panel h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .urls-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .urls-list li {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            padding: 12px;
-            background-color: #f1f1f1;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .urls-list img {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 6px;
-            margin-right: 20px;
-        }
-        .urls-list .url-info {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            gap: 10px; /* Espaciado uniforme entre elementos */
-        }
-        .urls-list .url-info strong {
-            font-size: 16px;
-        }
-        .urls-list .url-info p {
-            margin: 0;
-            font-size: 14px;
-            color: #555;
-        }
-        .url-row {
-            display: flex;
-            align-items: center;
-        }
-        .url-row strong {
-            margin-right: 10px;
-            font-size: 14px;
-            color: #333;
-        }
-        .url-row a {
-            color: #007BFF;
-            text-decoration: none;
-            word-break: break-all;
-        }
-        .url-row a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-    <div class="container">
-        <h1><%= title %></h1>
+<body class="bg-[#f4f4f9] min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6"><%= title %></h1>
 
         <!-- Formulario para ingresar URL -->
-        <div class="url-form">
-            <form action="/url" method="POST">
-                <input type="text" id="longUrl" name="longUrl" placeholder="Ingresa la URL larga" required>
-                <button type="submit">Convertir</button>
+        <div class="mb-6">
+            <form action="/url" method="POST" class="space-y-4">
+                <input type="text" id="longUrl" name="longUrl" placeholder="Ingresa la URL larga" required
+                       class="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <input type="text" id="customAlias" name="customAlias" placeholder="Alias personalizado (opcional)"
+                       class="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <button type="submit"
+                        class="w-full p-4 text-base text-white bg-green-500 rounded-md hover:bg-green-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                    Convertir
+                </button>
             </form>
         </div>
 
         <!-- Mostrar mis URLs -->
-        <div class="urls-panel">
-            <h3>Mis URLs:</h3>
-            <div class="urls-list">
+        <div class="bg-gray-100 p-6 rounded-md shadow">
+            <h3 class="text-xl font-semibold mb-4">Mis URLs:</h3>
+            <div class="space-y-4">
                 <% if (urls && urls.length > 0) { %>
                     <ul>
                         <% urls.forEach(function(url) { %>
-                            <li>
+                            <li class="flex bg-white p-4 rounded-md shadow">
                                 <% if (url.imagen) { %>
-                                    <img src="<%= url.imagen %>" alt="Imagen de la URL">
+                                    <img src="<%= url.imagen %>" alt="Imagen de la URL" class="w-48 h-48 object-cover rounded-md mr-4">
                                 <% } %>
-                                <div class="url-info">
+                                <div class="flex flex-col flex-1 space-y-2">
                                     <% if (url.titulo) { %>
-                                        <strong><%= url.titulo %></strong>
+                                        <strong class="text-lg"><%= url.titulo %></strong>
                                     <% } %>
                                     <% if (url.descripcion) { %>
-                                        <p><%= url.descripcion %></p>
+                                        <p class="text-gray-600"><%= url.descripcion %></p>
                                     <% } %>
-                                    <div class="url-row">
-                                        <strong>Acortada:</strong> <a href="<%= url.shortUrl %>" target="_blank"><%= url.shortUrl %></a>
+                                    <div class="flex items-center">
+                                        <strong class="mr-2">Acortada:</strong>
+                                        <a href="<%= url.shortUrl %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline break-all"><%= url.shortUrl %></a>
                                     </div>
-                                    <div class="url-row">
-                                        <strong>Original:</strong> <a href="<%= url.longUrl %>" target="_blank"><%= url.longUrl %></a>
+                                    <div class="flex items-center">
+                                        <strong class="mr-2">Original:</strong>
+                                        <a href="<%= url.longUrl %>" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline break-all"><%= url.longUrl %></a>
                                     </div>
                                 </div>
                             </li>
@@ -160,6 +60,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

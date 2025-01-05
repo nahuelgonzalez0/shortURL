@@ -14,7 +14,7 @@ router.route('/url')
     res.render('example', { title: 'Short URL', shortUrl: null, urls: null, message:'' })
 })
 .post(async (req: Request, res: Response) => {
-    const { longUrl } = req.body
+    const { longUrl, customAlias } = req.body
     console.log('URL recibida:', longUrl)
     let idUsuario = req.cookies.userId
     
@@ -33,7 +33,7 @@ router.route('/url')
             return res.render('error', { message: 'La URL proporcionada no es válida.' })
         }
         const urlConvertida = convert(longUrl)
-        const shortUrl = createShortUrL(longUrl)
+        const shortUrl = createShortUrL(longUrl, customAlias)
         const existingUrl = await getLongUrl(shortUrl)
 
         if (existingUrl) {

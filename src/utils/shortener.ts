@@ -1,8 +1,11 @@
 //creo una funcion para crear la url corta
 import crypto from 'crypto';
 
-export function createShortUrL(longUrl:string) : string {
+export function createShortUrL(longUrl:string, customAlias:string) : string {
     //creo un hash a partir de la url larga
+    if (customAlias && customAlias.trim() !== '') {
+        return customAlias;
+    }
     const hash = crypto.createHash('sha256')
     hash.update(longUrl)
     const shortUrl = hash.digest('hex').slice(0, 6)
