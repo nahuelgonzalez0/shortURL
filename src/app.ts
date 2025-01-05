@@ -14,6 +14,11 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.set('view engine', 'ejs')
 
+// Ruta principal
+app.get("/", (req, res) => {
+  res.render("example"); // Renderiza tu archivo example.ejs
+});
+
 // Ruta básica para verificar que el servidor funciona
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`)
