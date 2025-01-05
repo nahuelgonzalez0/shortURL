@@ -1,6 +1,6 @@
 # dependencias de Node.js
 node_modules/
-
+build/
 # directorios de construcción
 dist/
 build/
