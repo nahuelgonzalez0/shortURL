@@ -15,8 +15,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 // Ruta principal
-app.get("/url", (req, res) => {
-  res.render("example"); // Renderiza tu archivo example.ejs
+app.get("/", (req, res) => {
+  res.render("example", { title: 'Short URL', shortUrl: null, urls: null, message:''} ); // Renderiza tu archivo example.ejs
 });
 
 // Ruta básica para verificar que el servidor funciona
