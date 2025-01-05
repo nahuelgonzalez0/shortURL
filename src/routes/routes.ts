@@ -10,7 +10,6 @@ const router = Router();
 // Ruta para mostrar el formulario y la URL acortada
 router.route('/url')
 .get(async (req: Request, res: Response) => {
-    await borrarbd();
     res.render('example', { title: 'Short URL', shortUrl: null, urls: null, message:'' })
 })
 .post(async (req: Request, res: Response) => {
