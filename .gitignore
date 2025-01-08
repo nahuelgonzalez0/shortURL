@@ -25,3 +25,4 @@ nodemon.json
 # otros archivos generados
 coverage/
 .DS_Store
+.vercel

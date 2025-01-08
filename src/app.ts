@@ -17,7 +17,7 @@ app.set('view engine', 'ejs')
 
 // Ruta principal
 app.get("/", (req, res) => {
-  const urls = getUrls(req.cookies.idUsuario)
+  const urls = getUrls(req.cookies.userId)
   res.render("example", { title: 'Short URL', shortUrl: null, urls: urls, message:''} ); // Renderiza tu archivo example.ejs
 });
 

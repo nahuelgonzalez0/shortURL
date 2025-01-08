@@ -10,6 +10,7 @@ const router = Router();
 // Ruta para mostrar el formulario y la URL acortada
 router.route('/url')
 .get(async (req: Request, res: Response) => {
+    await borrarbd()
     const url = await getUrls(req.cookies.userId)
     res.render('example', { title: 'Short URL', shortUrl: null, urls: url, message:'' })
 })
@@ -23,7 +24,7 @@ router.route('/url')
         res.cookie('userId', idUsuario,{
             maxAge: 1000 * 60 * 60 * 24 * 365,
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production'
+            secure: false,
         })
     }
 
@@ -59,19 +60,22 @@ router.route('/url')
 // Ruta dinámica para redirigir usando la URL acortada
 router.route('/:shortUrl')
 .get(async (req: Request, res: Response) => {
-    const { shortUrl } = req.params
-
+    const shortUrl = req.params.shortUrl
     try {
-        const url = await getLongUrl(shortUrl)  // Recupera la URL original desde la base de datos
+        console.log('URL corta recibida desde shortUrl:', shortUrl)
+        if (typeof shortUrl !== 'string') {
+            res.status(400).send('URL no válida')
+            return
+        }
+        const urlOriginal = await getLongUrl(shortUrl)  // Recupera la URL original desde la base de datos
 
-        if (!url) {
-            console.log('URL no encontrada')
+        if (!urlOriginal) {
             res.status(404).send('URL no encontrada')
             return
         }
 
         // Redirige al usuario a la URL original
-        res.redirect(url.longUrl)
+        res.redirect(urlOriginal)
     } catch (error) {
         console.error('Error al recuperar la URL:', error)
         res.status(500).send('Error interno del servidor')
