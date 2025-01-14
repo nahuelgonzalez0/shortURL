@@ -10,7 +10,6 @@ const router = Router();
 // Ruta para mostrar el formulario y la URL acortada
 router.route('/url')
 .get(async (req: Request, res: Response) => {
-    await borrarbd()
     const url = await getUrls(req.cookies.userId)
     res.render('example', { title: 'Short URL', shortUrl: null, urls: url, message:'' })
 })
@@ -31,7 +30,7 @@ router.route('/url')
     try {
         if (!validarURL(longUrl)) {
             console.log('Error en la URL proporcionada')
-            return res.render('error', { message: 'La URL proporcionada no es válida.' })
+            return res.render('error', { errorMessage: 'La URL proporcionada no es válida.' })
         }
         const urlConvertida = convert(longUrl)
         const shortUrl = createShortUrL(longUrl, customAlias)
@@ -39,8 +38,7 @@ router.route('/url')
 
         if (existingUrl) {
             console.log('La URL ya existe:', existingUrl.shortUrl)
-            const urls = await getUrls(req.cookies.userId)
-            return res.render('example', { title: 'Short URL', shortUrl: existingUrl.shortUrl, urls, message: 'La URL ya existe.' })
+            return res.render('error', {errorMessage: 'El shortUrl ya está en uso, elige otro.'})
         }
 
         console.log('URL corta generada:', shortUrl)
@@ -65,7 +63,7 @@ router.route('/:shortUrl')
         console.log('URL corta recibida desde shortUrl:', shortUrl)
         if (typeof shortUrl !== 'string') {
             res.status(400).send('URL no válida')
-            return
+            return res.render('error', {errorMessage: 'El formato de la URL no es valida.'})
         }
         const urlOriginal = await getLongUrl(shortUrl)  // Recupera la URL original desde la base de datos
 
