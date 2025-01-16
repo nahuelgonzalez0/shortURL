@@ -16,7 +16,7 @@ export async function obtenerMetaDatos(url: string): Promise<Metadatos | undefin
     }
     try {
         
-        const { data, headers } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } })
+        const { data, headers } = await axios.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36' } })
 
         // Verifica si el contenido es HTML
         if (!headers['content-type']?.includes('text/html')) {
@@ -41,8 +41,8 @@ export async function obtenerMetaDatos(url: string): Promise<Metadatos | undefin
     }
     console.log('Contenido recibido de la URL:', data)
         const metaDatos: Metadatos = {
-            titulo: $('meta[property="og:title"]').attr('content') || undefined,
-            descripcion: $('meta[property="og:description"]').attr('content') || undefined,
+            titulo: $('title').text() || $('meta[name="title"]').attr('content') || undefined,
+            descripcion: $('meta[name="description"]').attr('content') || undefined,
             imagen: $('meta[property="og:image"]').attr('content') || undefined,
             url,
         }
