@@ -40,12 +40,19 @@ export async function obtenerMetaDatos(url: string): Promise<Metadatos | undefin
         }
     }
     console.log('Contenido recibido de la URL:', data)
-        const metaDatos: Metadatos = {
-            titulo: $('title').text() || $('meta[name="title"]').attr('content') || undefined,
-            descripcion: $('meta[name="description"]').attr('content') || undefined,
-            imagen: $('meta[property="og:image"]').attr('content') || undefined,
-            url,
-        }
+    const metaDatos: Metadatos = {
+        titulo: $('meta[property="og:title"]').attr('content') ||
+            $('title').text() ||
+            $('meta[name="title"]').attr('content') ||
+            undefined,
+        descripcion: $('meta[property="og:description"]').attr('content') ||
+            $('meta[name="description"]').attr('content') ||
+            undefined,
+        imagen: $('meta[property="og:image"]').attr('content') ||
+            $('meta[name="image"]').attr('content') ||
+            undefined,
+        url,
+    };
 
         return metaDatos;
     } catch (error) {
